@@ -1,0 +1,1 @@
+git archive --format=zip -o tdd.zip HEAD
