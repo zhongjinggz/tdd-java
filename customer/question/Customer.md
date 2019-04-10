@@ -5,7 +5,6 @@
 * 给定一个基于 Spring Boot 的客户管理程序(Customer)，包含生成客户和查询所有客户的功能
 * 任务
 	* 增加集成测试
-
 		* 使用Repository进行集成测试
 		* 使用SQL进行集成测试
 		* 使用DBUnit进行集成测
