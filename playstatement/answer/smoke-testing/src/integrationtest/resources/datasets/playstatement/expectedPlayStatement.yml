@@ -1,0 +1,11 @@
+play_statement_item:
+  - id: 0
+    amount: 70000
+    name: "As You Like It"
+    play_statement_id: 0
+
+play_statement:
+  - id: 0
+    customer: "AAA"
+    total_amount: 70000
+    volume_credits: 30

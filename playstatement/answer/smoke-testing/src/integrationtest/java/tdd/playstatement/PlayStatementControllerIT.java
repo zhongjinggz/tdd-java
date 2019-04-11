@@ -17,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import com.github.database.rider.spring.api.DBRider;
 import com.github.database.rider.core.api.dataset.DataSet;
+import tdd.playstatement.domain.model.performancesummary.PerformanceSummary;
+import tdd.playstatement.domain.model.playstatement.PlayStatement;
 
 import static org.assertj.core.api.Assertions.*;
 
