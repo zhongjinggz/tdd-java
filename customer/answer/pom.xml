@@ -88,6 +88,12 @@
             <artifactId>rider-spring</artifactId>
             <version>1.5.2</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
