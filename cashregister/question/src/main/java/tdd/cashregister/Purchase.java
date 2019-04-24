@@ -9,12 +9,16 @@ public class Purchase {
     }
 
     public String description() {
-        String out = "";
+        StringBuilder result = new StringBuilder();
 
         for (Item item : items) {
-            out += item.getName() + "\t" + item.getPrice() + "\n";
+            //result += item.getName() + "\t" + item.getPrice() + "\n";
+            result.append(item.getName())
+                    .append("\t")
+                    .append(item.getPrice())
+                    .append("\n");
         }
 
-        return out;
+        return result.toString();
     }
 }
