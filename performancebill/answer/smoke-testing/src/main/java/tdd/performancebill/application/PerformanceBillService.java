@@ -1,26 +1,26 @@
-package tdd.playstatement.application;
+package tdd.performancebill.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import tdd.playstatement.domain.model.Play;
-import tdd.playstatement.domain.model.performancesummary.Performance;
-import tdd.playstatement.domain.model.performancesummary.PerformanceSummary;
-import tdd.playstatement.domain.model.playstatement.PlayStatement;
-import tdd.playstatement.domain.model.playstatement.PlayStatementRepository;
+import tdd.performancebill.domain.model.Play;
+import tdd.performancebill.domain.model.performancebill.PerformanceBillRepository;
+import tdd.performancebill.domain.model.performancesummary.Performance;
+import tdd.performancebill.domain.model.performancesummary.PerformanceSummary;
+import tdd.performancebill.domain.model.performancebill.PerformanceBill;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class PlayStatementService {
+public class PerformanceBillService {
     @Autowired
-    PlayStatementRepository repository;
+    PerformanceBillRepository repository;
 
     @Transactional
-    public PlayStatement createPlayStatement(@RequestBody PerformanceSummary performanceSummary) {
-        PlayStatement statement;//初始化戏剧列表
+    public PerformanceBill createBill(@RequestBody PerformanceSummary performanceSummary) {
+        PerformanceBill bill;//初始化戏剧列表
         Map<String, Play> plays = new HashMap<>();
         plays.put("hamlet", new Play("hamelet", "Hamlet", "tragedy"));
         plays.put("as-like", new Play("as-like", "As You Like It", "comedy"));
@@ -29,7 +29,7 @@ public class PlayStatementService {
         int totalAmount = 0;
         int volumeCredits = 0;
 
-        statement = new PlayStatement(performanceSummary.getCustomer());
+        bill = new PerformanceBill(performanceSummary.getCustomer());
 
 
         for (Performance perf : performanceSummary.getPerformances()) {
@@ -59,16 +59,15 @@ public class PlayStatementService {
 
             totalAmount += thisAmount;
 
-            statement.addItem(play.getName(), thisAmount, perf.getAudience());
+            bill.addItem(play.getName(), thisAmount, perf.getAudience());
 
 
         }
 
-        statement.setTotalAmount(totalAmount);
-        statement.setVolumeCredits(volumeCredits);
+        bill.setTotalAmount(totalAmount);
+        bill.setVolumeCredits(volumeCredits);
 
-        repository.save(statement);
-        return statement;
+        return repository.save(bill);
     }
 
 }

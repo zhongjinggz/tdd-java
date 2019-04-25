@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>tdd</groupId>
-    <artifactId>play-statement</artifactId>
+    <artifactId>performance-bill</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>play-statement</name>
+    <name>performance-bill</name>
     <description>Demo project for introducting tdd to legacy system</description>
 
     <properties>
@@ -88,6 +88,12 @@
             <artifactId>rider-spring</artifactId>
             <version>1.5.2</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

@@ -1,4 +1,4 @@
-package tdd.playstatement.domain.model.performancesummary;
+package tdd.performancebill.domain.model.performancesummary;
 
 public class Performance {
 

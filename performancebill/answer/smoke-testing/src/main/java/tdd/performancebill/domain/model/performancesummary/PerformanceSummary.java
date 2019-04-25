@@ -1,4 +1,4 @@
-package tdd.playstatement.domain.model.performancesummary;
+package tdd.performancebill.domain.model.performancesummary;
 
 import java.util.ArrayList;
 import java.util.List;

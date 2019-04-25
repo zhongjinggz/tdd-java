@@ -1,10 +1,10 @@
-package tdd.playstatement.domain.model.playstatement;
+package tdd.performancebill.domain.model.performancebill;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "play_statement_item")
-public class PlayStatementItem {
+@Table(name = "performance_bill_item")
+public class PerformanceBillItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +19,7 @@ public class PlayStatementItem {
     @Column(name = "audience")
     private int audience;
 
-    public PlayStatementItem(String name, int amount, int audience) {
+    public PerformanceBillItem(String name, int amount, int audience) {
         this.name = name;
         this.amount = amount;
         this.audience = audience;

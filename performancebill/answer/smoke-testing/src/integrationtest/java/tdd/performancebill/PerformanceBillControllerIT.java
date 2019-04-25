@@ -1,6 +1,7 @@
-package tdd.playstatement;
+package tdd.performancebill;
 
 import java.io.IOException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
@@ -13,12 +14,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import com.github.database.rider.spring.api.DBRider;
 import com.github.database.rider.core.api.dataset.DataSet;
-import tdd.playstatement.domain.model.performancesummary.PerformanceSummary;
-import tdd.playstatement.domain.model.playstatement.PlayStatement;
+import tdd.performancebill.domain.model.performancesummary.PerformanceSummary;
+import tdd.performancebill.domain.model.performancebill.PerformanceBill;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -26,24 +29,24 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DBRider
-class PlayStatementControllerIT {
+class PerformanceBillControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @DataSet(cleanBefore = true)
-    @ExpectedDataSet(value = "playstatement/expectedPlayStatement.yml", ignoreCols = {"id","play_statement_id"})
+    @ExpectedDataSet(value = "performancebill/expectedPerformanceBill.yml", ignoreCols = {"id", "play_statement_id"})
     void createStatement应该创建结算单并返回其内容() throws Exception {
         //Given
         String requestBody = buildRequestBody();
 
         //When
-        String actual = mockMvc.perform(
-                post("/api/playstatement")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(requestBody))
-                    .andDo(print())
+        String actual = mockMvc
+                .perform(post("/api/performancebill")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andDo(print())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -83,7 +86,7 @@ class PlayStatementControllerIT {
 //    }
 
     private String buildExpectedRespond() {
-        PlayStatement aStatement = new PlayStatement("AAA");
+        PerformanceBill aStatement = new PerformanceBill("AAA");
         aStatement.addItem("As You Like It", 70000, 50);
         aStatement.setTotalAmount(70000);
         aStatement.setVolumeCredits(30);
@@ -91,7 +94,7 @@ class PlayStatementControllerIT {
         return asJsonString(aStatement);
     }
 
-//    {
+    //    {
 //        "customer": "AAA",
 //        "performances": [
 //            {
