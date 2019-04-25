@@ -1,4 +1,4 @@
-package tdd.playstatement;
+package tdd.performancebill;
 
 public class Play {
     String id;

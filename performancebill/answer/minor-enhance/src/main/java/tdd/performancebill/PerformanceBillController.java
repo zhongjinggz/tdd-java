@@ -1,4 +1,4 @@
-package tdd.playstatement;
+package tdd.performancebill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class PlayStatementController {
+public class PerformanceBillController {
 
     Map<String, Play> plays = new HashMap<>();
 
     @Autowired
-    PlayStatementRepository repository;
+    PerformanceBillRepository repository;
 
-    @PostMapping("/api/playstatement")
-    public PlayStatement createStatement(@RequestBody PerformanceSummary performanceSummary) {
+    @PostMapping("/api/performancebill")
+    public PerformanceBill createBill(@RequestBody PerformanceSummary performanceSummary) {
         //初始化戏剧列表
         plays.put("hamlet", new Play("hamelet", "Hamlet", "tragedy"));
         plays.put("as-like", new Play("as-like", "As You Like It", "comedy"));
@@ -24,7 +24,7 @@ public class PlayStatementController {
         int totalAmount = 0;
         int volumeCredits = 0;
 
-        PlayStatement statement = new PlayStatement(
+        PerformanceBill bill = new PerformanceBill(
                 performanceSummary.getCustomer());
 
 
@@ -51,25 +51,33 @@ public class PlayStatementController {
 
             totalAmount += thisAmount;
 
-            statement.addItem(play.getName(),thisAmount, perf.getAudience());
+            bill.addItem(play.getName(),thisAmount, perf.getAudience());
 
 
         }
 
-        statement.setTotalAmount(totalAmount);
-        statement.setVolumeCredits(volumeCredits);
+        bill.setTotalAmount(totalAmount);
+        bill.setVolumeCredits(volumeCredits);
 
-        repository.save(statement);
+        repository.save(bill);
 
-        return statement;
+        return bill;
 
     }
 
     int calculateComedyAmount(int audience) {
-        int amount = 30000 + 300 * audience;
+        final int BASE_PRICE = 30000;
+        final int UNIT_PRICE = 300;
 
-        if (audience > 10) {
-            amount += 10000 + 500 * (audience - 20);
+        final int THRESHOLD = 10;
+        final int ADDITIONAL_BASE_PRICE = 10000;
+        final int ADDITIONAL_UNIT_PRICE = 500;
+
+        int amount = BASE_PRICE + UNIT_PRICE * audience;
+
+        if (audience > THRESHOLD) {
+            amount += ADDITIONAL_BASE_PRICE
+                    + ADDITIONAL_UNIT_PRICE * (audience - THRESHOLD);
         }
 
         return amount;

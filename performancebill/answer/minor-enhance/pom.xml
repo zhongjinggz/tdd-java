@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>tdd</groupId>
-    <artifactId>play-statement</artifactId>
+    <artifactId>performance-bill</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>play-statement</name>
+    <name>performance-bill</name>
     <description>Demo project for introducting tdd to legacy system</description>
 
     <properties>
