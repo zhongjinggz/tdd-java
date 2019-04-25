@@ -1,4 +1,4 @@
-package tdd.playstatement;
+package tdd.performancebill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class PlayStatementController {
+public class PerformanceBillController {
 
     Map<String, Play> plays = new HashMap<>();
 
     @Autowired
-    PlayStatementRepository repository;
+    PerformanceBillRepository repository;
 
-    @PostMapping("/api/playstatement")
-    public PlayStatement createStatement(@RequestBody PerformanceSummary performanceSummary) {
+    @PostMapping("/api/performancebill")
+    public PerformanceBill createBill(@RequestBody PerformanceSummary performanceSummary) {
         //初始化戏剧列表
         plays.put("hamlet", new Play("hamelet", "Hamlet", "tragedy"));
         plays.put("as-like", new Play("as-like", "As You Like It", "comedy"));
@@ -24,7 +24,7 @@ public class PlayStatementController {
         int totalAmount = 0;
         int volumeCredits = 0;
 
-        PlayStatement statement = new PlayStatement(
+        PerformanceBill bill = new PerformanceBill(
                 performanceSummary.getCustomer());
 
 
@@ -55,19 +55,17 @@ public class PlayStatementController {
 
             totalAmount += thisAmount;
 
-            statement.addItem(play.getName(),thisAmount, perf.getAudience());
+            bill.addItem(play.getName(),thisAmount, perf.getAudience());
 
 
         }
 
-        statement.setTotalAmount(totalAmount);
-        statement.setVolumeCredits(volumeCredits);
+        bill.setTotalAmount(totalAmount);
+        bill.setVolumeCredits(volumeCredits);
 
-        repository.save(statement);
+        repository.save(bill);
 
-        return statement;
-
-
+        return bill;
     }
 
 }

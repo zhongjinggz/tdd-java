@@ -1,12 +1,12 @@
-package tdd.playstatement;
+package tdd.performancebill;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "play_statement")
-public class PlayStatement {
+@Table(name = "performance_bill")
+public class PerformanceBill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,10 +21,10 @@ public class PlayStatement {
     private int volumeCredits;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "play_statement_id")
-    private List<PlayStatementItem> items = new ArrayList<>();
+    @JoinColumn(name = "performance_bill_id")
+    private List<PerformanceBillItem> items = new ArrayList<>();
 
-    public PlayStatement(String customer) {
+    public PerformanceBill(String customer) {
         this.customer = customer;
     }
     public void setCustomer(String customer) {
@@ -32,19 +32,19 @@ public class PlayStatement {
     }
 
     @Deprecated
-    public void addItem(PlayStatementItem item) {
+    public void addItem(PerformanceBillItem item) {
         this.items.add(item);
     }
 
     public void addItem(String name, int amount, int audience) {
-        this.items.add(new PlayStatementItem(name, amount, audience));
+        this.items.add(new PerformanceBillItem(name, amount, audience));
     }
 
     public String getCustomer() {
         return customer;
     }
 
-    public List<PlayStatementItem> getItems() {
+    public List<PerformanceBillItem> getItems() {
         return items;
     }
 
