@@ -1,20 +1,21 @@
 package tdd.customer.application;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import tdd.customer.domain.model.Customer;
-import tdd.customer.infrastructure.persistence.CustomerRepository;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import tdd.customer.domain.model.Customer;
+import tdd.customer.domain.model.CustomerRepository;
 
 @Service
 public class CustomerService {
     @Autowired
     CustomerRepository repository;
 
-    public void create(Customer customer) {
-        repository.save(customer);
+    public Customer create(Customer customer) {
+        return repository.save(customer);
     }
 
     public Optional<Customer> findById(long id) {

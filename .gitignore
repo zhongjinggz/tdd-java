@@ -18,6 +18,7 @@ gradle-app.setting
 
 # IntelliJ
 .idea/
+out/
 *.iml
 *.ipr
 *.iws

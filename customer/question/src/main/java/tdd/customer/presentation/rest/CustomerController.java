@@ -4,6 +4,7 @@ import tdd.customer.application.CustomerService;
 import tdd.customer.domain.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tdd.customer.share.exceptions.CustomerNotFoundException;
 
 import java.util.List;
 
@@ -13,8 +14,14 @@ public class CustomerController {
     CustomerService service;
 
     @PostMapping("/api/customers")
-    public void create(@RequestBody Customer customer) {
-        service.create(customer);
+    public Long create(@RequestBody Customer customer) {
+        return service.create(customer).getId();
+    }
+
+    @GetMapping("/api/customers/{id}")
+    public Customer findById(@PathVariable Long id) {
+        return service.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
     @GetMapping("/api/customers")
