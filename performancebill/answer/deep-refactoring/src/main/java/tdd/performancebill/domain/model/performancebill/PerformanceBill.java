@@ -1,5 +1,7 @@
 package tdd.performancebill.domain.model.performancebill;
 
+import tdd.performancebill.domain.model.play.Play;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ public class PerformanceBill {
     private String customer;
 
     @Column(name = "total_amount")
-    private int totalAmount;
+    private int totalAmount = 0;
 
     @Column(name = "volume_credits")
     private int volumeCredits;
@@ -39,6 +41,25 @@ public class PerformanceBill {
     @Deprecated
     public PerformanceBill addItem(PerformanceBillItem item) {
         this.items.add(item);
+        return this;
+    }
+
+    public PerformanceBill addItem(Play play, int audience) {
+        int amount = play
+                .getAmountStrategy()
+                .calculate(audience);
+
+        this.items.add(
+                new PerformanceBillItem(
+                        play.getName()
+                        , amount
+                        , audience));
+
+        totalAmount += amount;
+        volumeCredits += play
+                .getVolumeCreditsStrategy()
+                .calculate(audience);
+
         return this;
     }
 
@@ -72,4 +93,5 @@ public class PerformanceBill {
     public int getVolumeCredits() {
         return volumeCredits;
     }
+
 }

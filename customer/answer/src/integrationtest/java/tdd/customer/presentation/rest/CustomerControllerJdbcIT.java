@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class CustomerControllerIT {
+class CustomerControllerJdbcIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,9 +33,9 @@ class CustomerControllerIT {
     private JdbcTemplate jdbc;
 
     @Test
-    void create应创建客户WithJdbc() throws Exception {
+    void create应创建客户() throws Exception {
         //Given
-        clearCustomerTableWithJdbc();
+        clearCustomerTable();
 
         //When
         Customer stubCust = new Customer("云", "赵");
@@ -55,7 +55,7 @@ class CustomerControllerIT {
         return jdbc.query("select * from customer", new CustomerJdbcMapper());
     }
 
-    private void clearCustomerTableWithJdbc() {
+    private void clearCustomerTable() {
         jdbc.update("truncate table customer");
     }
 

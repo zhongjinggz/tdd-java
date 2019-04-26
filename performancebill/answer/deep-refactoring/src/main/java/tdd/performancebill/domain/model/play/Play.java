@@ -6,20 +6,14 @@ import tdd.performancebill.domain.model.play.volumecreditsstrategy.VolumeCredits
 public class Play {
     private String id;
     private String name;
-    private String type;
-    private AmountStrategy amountStrategy;
-    private VolumeCreditsStrategy volumeCreditsStrategy;
+    private PlayType type;
 
     public Play(String id
             , String name
-            , String type
-            , AmountStrategy amountStrategy
-            , VolumeCreditsStrategy volumeCreditsStrategy) {
+            , PlayType type) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.amountStrategy = amountStrategy;
-        this.volumeCreditsStrategy = volumeCreditsStrategy;
     }
 
     public String getId() {
@@ -30,14 +24,11 @@ public class Play {
         return name;
     }
 
-    public String getType() {
-        return type;
+    public AmountStrategy getAmountStrategy() {
+        return type.getAmountStrategy();
     }
 
-    public AmountStrategy getAmountStrategy() {
-        return amountStrategy;
-    }
     public VolumeCreditsStrategy getVolumeCreditsStrategy() {
-        return volumeCreditsStrategy;
+        return type.getVolumeCreditsStrategy();
     }
 }

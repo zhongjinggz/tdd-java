@@ -21,6 +21,7 @@ import tdd.performancebill.domain.model.performancebill.PerformanceBillRepositor
 import tdd.performancebill.domain.model.performancesummary.PerformanceSummary;
 import tdd.performancebill.domain.model.play.Play;
 import tdd.performancebill.domain.model.play.PlayRepository;
+import tdd.performancebill.domain.model.play.PlayType;
 import tdd.performancebill.domain.model.play.amountstrategy.AmountStrategy;
 import tdd.performancebill.domain.model.play.volumecreditsstrategy.VolumeCreditsStrategy;
 
@@ -49,25 +50,21 @@ class PerformanceBillServiceTest {
     @BeforeEach
     void setUp() {
         Map<String, Play> plays = new HashMap<>();
+
         plays.put("hamlet"
                 , new Play("hamelet"
                         , "Hamlet"
-                        , "tragedy"
-                        , AmountStrategy.TRAGEDY
-                        , VolumeCreditsStrategy.TRADEGY));
+                        , PlayType.TRADEGY));
 
         plays.put("as-like"
                 , new Play("as-like"
                         , "As You Like It"
-                        , "comedy"
-                        , AmountStrategy.COMEDY
-                        , VolumeCreditsStrategy.COMEDY));
+                        , PlayType.COMEDY));
+
         plays.put("othello"
                 , new Play("othello"
                         , "Othello"
-                        , "tragedy"
-                        , AmountStrategy.TRAGEDY
-                        , VolumeCreditsStrategy.TRADEGY));
+                        , PlayType.TRADEGY));
 
         doReturn(plays).when(mockPlayRepository).findPlays();
     }
@@ -152,19 +149,19 @@ class PerformanceBillServiceTest {
         verify(mockBillRepository).save(argument.capture());
         PerformanceBill actual = argument.getValue();
 
-//        //Approach 1
-//        assertThat(actual.getCustomer()).isEqualTo("A Company");
-//        assertThat(actual.getVolumeCredits()).isEqualTo(0);
-//        assertThat(actual.getItems()).hasSize(1)
-//                .extracting("name", "amount", "audience")
-//                .contains(tuple("Hamlet", 40000, 20));
+        //Approach 1
+        assertThat(actual.getCustomer()).isEqualTo(company);
+        assertThat(actual.getVolumeCredits()).isEqualTo(expectedVolumeCredits);
+        assertThat(actual.getItems()).hasSize(1)
+                .extracting("name", "amount", "audience")
+                .contains(tuple(expectedPlayName, expectedAmount, audience));
 
         // Approach 2
-        PerformanceBill expected = new PerformanceBill(company)
-                .setTotalAmount(expectedAmount)
-                .setVolumeCredits(expectedVolumeCredits)
-                .addItem(expectedPlayName, expectedAmount, audience);
-
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+//        PerformanceBill expected = new PerformanceBill(company)
+//                .setTotalAmount(expectedAmount)
+//                .setVolumeCredits(expectedVolumeCredits)
+//                .addItem(expectedPlayName, expectedAmount, audience);
+//
+//        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 }
