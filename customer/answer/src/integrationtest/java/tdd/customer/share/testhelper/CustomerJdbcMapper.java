@@ -9,7 +9,10 @@ import java.sql.SQLException;
 public class CustomerJdbcMapper implements RowMapper<Customer> {
     @Override
     public Customer mapRow(ResultSet rs, int i) throws SQLException {
-        return new Customer(rs.getString("first_name")
-                , rs.getString("last_name"));
+        return new Customer(
+                rs.getLong("id"),
+                rs.getString("first_name"),
+                rs.getString("last_name")
+        );
     }
 }

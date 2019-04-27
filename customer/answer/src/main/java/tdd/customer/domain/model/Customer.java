@@ -24,6 +24,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
+    public Customer(long id, String firstName, String lastName) {
+        this(firstName, lastName);
+        this.id = id;
+    }
+
 
     public Long getId() {
         return id;

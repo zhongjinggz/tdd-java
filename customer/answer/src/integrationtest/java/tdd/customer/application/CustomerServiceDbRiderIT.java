@@ -19,7 +19,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @DBRider
-class CustomerServiceByDbUnitIT {
+class CustomerServiceDbRiderIT {
     @Autowired
     CustomerService service;
 
@@ -28,10 +28,21 @@ class CustomerServiceByDbUnitIT {
     @ExpectedDataSet(value = "customer/expectedCustomers.yml", ignoreCols = "id")
     void create应创建客户() {
 
-        //When
-        Customer stubCust = new Customer("羽", "关");
-        service.create(stubCust);
+        Customer expected = new Customer("羽", "关");
+        service.create(expected);
 
+    }
+    @Test
+    @DataSet(value = "customer/customers.yml")
+    void findById应查出指定客户() {
+        Customer expected = new Customer(1L,"羽", "关");
+        Customer actual = service
+                .findById(expected.getId())
+                .orElseGet(() ->
+                        fail("找不到id为 '" + expected.getId() + "' 的客户")
+                );
+
+        assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     @Test
