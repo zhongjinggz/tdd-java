@@ -4,14 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import tdd.taxi.Taxi;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.offset;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-//import org.junit.jupiter.api.Test;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.fail;
 
 //Done 不大于2公里时只收起步价6元
 //Done 超过2公里时每公里0.8元
@@ -29,19 +24,6 @@ class TaxiTest {
     void setUp() {
         taxi = new Taxi();
     }
-
-//    // 如果采用英文命名测试案例,建议采用如下风格
-//    // JUnit4无法实现方法级的参数化,可以采用以下形式
-//    @Test
-//    void calculate_should_be_2yuan_when_2km() {
-//        verifyCalculate(2.0, 0, 6.0);
-//    }
-//
-//    // 建议采用中文命名
-//    @Test
-//    void calculate_不大于2公里时只收起步价6元_1公里时6元() {
-//        verifyCalculate(1.0, 0, 6.0);
-//    }
 
     //JUnit5的参数化测试方法
     //有多个参数时,使用@CsvSource
@@ -79,6 +61,7 @@ class TaxiTest {
         verifyCalculate(distance, waitMinutes, expected);
 
     }
+
     @ParameterizedTest
     @CsvSource({
             "2,  1,  6.25",
@@ -92,7 +75,6 @@ class TaxiTest {
 
 
     // 注意抽出公共测试代码
-    // AssertJ提供了比JUnit更强大的断言
     private void verifyCalculate(final double distance,
                                  final int waitMinutes,
                                  final double expected) {
@@ -100,33 +82,9 @@ class TaxiTest {
         Double fee = taxi.calculate(distance, waitMinutes);
 
         // Then
-        assertThat(fee).isEqualTo(expected, offset(DELTA)); // AssertJ Assertion
-        // assertEquals(expected, fee, DELTA); //JUnit Assertion
+        assertEquals(expected, fee, DELTA);
     }
 
-
-//    //JUnit5之前测试Exception的一种方法
-//    @Test
-//    void calculate距离必须大于0_负数() {
-//        verifyDistanceException(-1.0);
-//    }
-//
-//    @Test
-//    void calculate距离必须大于0_0() {
-//        verifyDistanceException(0.0);
-//    }
-//
-//    private void verifyDistanceException(final double distance) {
-//        try {
-//            taxi.calculate(distance,0);
-//            fail("距离不大于0时应抛出异常");
-//        } catch (IllegalArgumentException e) {
-//            assertEquals(Taxi.MSG_DISTANCE_SHOULD_GT_0, e.getMessage());
-//
-//        }
-//    }
-
-    //JUnit5测试Exception的方法
     //只有一个参数时,可使用@ValueSource
     @ParameterizedTest
     @ValueSource(ints = {-1, -2})
@@ -148,11 +106,14 @@ class TaxiTest {
         verifyCalculateException(waitMinutes, distance, expectedMsg);
     }
 
-    private void verifyCalculateException(int waitMinutes, double distance, String expectedMsg) {
+    private void verifyCalculateException(
+            int waitMinutes
+            , double distance
+            , String expectedMsg) {
 
         Exception e = assertThrows(IllegalArgumentException.class,
                 () -> taxi.calculate(distance, waitMinutes));
 
-        assertThat(e.getMessage()).isEqualTo(expectedMsg);
+        assertEquals(expectedMsg, e.getMessage());
     }
 }
