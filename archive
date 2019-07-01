@@ -1,1 +1,1 @@
-git archive --format=zip -o tdd.zip HEAD
+git archive --format=zip -o auto-test.zip HEAD

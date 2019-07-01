@@ -15,7 +15,8 @@ class CustomerTest {
         customer.setLastName(("Lee"));
 
         assertThat(customer.toString())
-                .isEqualTo( "Customer{id=100, firstName='Bruce', lastName='Lee'}" );
+                .isEqualTo( "Customer{id=100, firstName='Bruce'" +
+                        ", lastName='Lee'}" );
 
 
     }
