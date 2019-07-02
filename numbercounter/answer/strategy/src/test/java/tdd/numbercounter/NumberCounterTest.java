@@ -15,7 +15,7 @@ public class NumberCounterTest {
             "'28,25,22,19,16,13,11', 3"
     })
     public void count能数出偶数的个数(String numbers, int expected) {
-        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.even);
+        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.EVEN);
         assertThat(count).isEqualTo(expected);
     }
 
@@ -25,7 +25,7 @@ public class NumberCounterTest {
             "'28,25,22,19,16,13,11', 4"
     })
     public void count能数出奇数的个数(String numbers, int expected) {
-        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.odd);
+        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.ODD);
         assertThat(count).isEqualTo(expected);
     }
 
@@ -35,7 +35,7 @@ public class NumberCounterTest {
             "'1,-2,2,-2,3,-3,100,-100', 4"
     })
     public void count能数出正数的个数(String numbers, int expected) {
-        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.positive);
+        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.POSITIVE);
         assertThat(count).isEqualTo(expected);
     }
 
@@ -45,7 +45,7 @@ public class NumberCounterTest {
             "'1,-2,2,-2,3,-3,100,-100', 4"
     })
     public void count能数出负数的个数(String numbers, int expected) {
-        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.negative);
+        int count = new NumberCounter(parseNumbers(numbers)).count(NumberStrategy.NEGATIVE);
         assertThat(count).isEqualTo(expected);
     }
 
