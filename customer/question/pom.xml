@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <skipUnitTest>false</skipUnitTest>
     </properties>
 
     <dependencies>
@@ -41,11 +42,12 @@
         </dependency>
 
         <!-- spring boot test already includes mockito -->
+        <!-- spring boot test already includes assertj -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <!-- exclude Junit4 first to replace it with Junit 5-->
+            <!-- exclude Junit4 to replace it with Junit 5-->
             <exclusions>
                 <exclusion>
                     <groupId>junit</groupId>
@@ -63,14 +65,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <!-- use 2.9.1 for Java 7 projects -->
-            <version>3.11.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
@@ -82,6 +76,19 @@
             <version>2.9.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.database-rider</groupId>
+            <artifactId>rider-spring</artifactId>
+            <version>1.5.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -90,6 +97,64 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-integration-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/integrationtest/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-integration-test-resource</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>add-test-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/integrationtest/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <skipTests>${skipUnitTest}</skipTests>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

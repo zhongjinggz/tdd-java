@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 //Done 等待时间不能小于0
 class TaxiTest {
 
-    private static final double DELTA = 0.000001;
     private Taxi taxi;
 
+    private static final double DELTA = 0.000001;
 
     @BeforeEach
     void setUp() {
@@ -35,17 +35,6 @@ class TaxiTest {
     void calculate不大于2公里时只收起步价6元(final double distance,
                                  final int waitMinutes,
                                  final double expected) {
-        verifyCalculate(distance, waitMinutes, expected);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "3,  0,   6.8",
-            "8,  0,  10.8"
-    })
-    void calculate超过2公里时每公里0点8元(final double distance,
-                                final int waitMinutes,
-                                final double expected) {
         verifyCalculate(distance, waitMinutes, expected);
     }
 
@@ -75,6 +64,7 @@ class TaxiTest {
 
 
     // 注意抽出公共测试代码
+
     private void verifyCalculate(final double distance,
                                  final int waitMinutes,
                                  final double expected) {
@@ -84,8 +74,8 @@ class TaxiTest {
         // Then
         assertEquals(expected, fee, DELTA);
     }
-
     //只有一个参数时,可使用@ValueSource
+
     @ParameterizedTest
     @ValueSource(ints = {-1, -2})
     void calculate等待时间不能小于0(final int waitMinutes) {
@@ -94,6 +84,16 @@ class TaxiTest {
         String expectedMsg = Taxi.MSG_WAITTIME_SHOULD_NOT_LT_0;
 
         verifyCalculateException(waitMinutes, distance, expectedMsg);
+    }
+    @ParameterizedTest
+    @CsvSource({
+            "3,  0,   6.8",
+            "8,  0,  10.8"
+    })
+    void calculate超过2公里时每公里0点8元(final double distance,
+                                final int waitMinutes,
+                                final double expected) {
+        verifyCalculate(distance, waitMinutes, expected);
     }
 
     @ParameterizedTest

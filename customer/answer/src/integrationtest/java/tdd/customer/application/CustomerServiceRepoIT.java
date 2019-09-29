@@ -15,6 +15,7 @@ import tdd.customer.share.testhelper.RepoHelper;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 本类中的测试方法借助Repository中的
@@ -48,6 +49,7 @@ class CustomerServiceRepoIT {
         Customer actual = helper.findCustomerFromDbById(expected.getId());
 
         assertThat(actual).isEqualToComparingFieldByField(expected);
+
     }
 
     @Test
